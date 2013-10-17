@@ -2,13 +2,21 @@ package com.mamlambo.simpleviewpager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.Toast;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class SimpleViewPagerActivity extends Activity {
 	/** called when the activity is first created. */
@@ -20,20 +28,11 @@ public class SimpleViewPagerActivity extends Activity {
 		MyPagerAdapter adapter = new MyPagerAdapter();
 		ViewPager myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
 		myPager.setAdapter(adapter);
-		myPager.setCurrentItem(2);
-	}
-
-	public void farLeftButtonClick(View v)
-	{
-		Toast.makeText(this, "Far Left Button Clicked", Toast.LENGTH_SHORT).show();
+		myPager.setCurrentItem(0);
 
 	}
 
-	public void farRightButtonClick(View v)
-	{
-		Toast.makeText(this, "Far Right Elephant Button Clicked", Toast.LENGTH_SHORT).show();
 
-	}
 
 	private class MyPagerAdapter extends PagerAdapter {
 
@@ -48,9 +47,11 @@ public class SimpleViewPagerActivity extends Activity {
 
 			int resId = 0;
 			switch (position) {
-			case 0:
+			case 0:{
 				resId = R.layout.farleft;
+
 				break;
+            }
 			case 1:
 				resId = R.layout.left;
 				break;
@@ -68,6 +69,29 @@ public class SimpleViewPagerActivity extends Activity {
 			View view = inflater.inflate(resId, null);
 
 			((ViewPager) collection).addView(view, 0);
+
+            final Button btCall = (Button)findViewById(R.id.btCall);
+            btCall.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                //public void onClick(View view) {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Animation animFadein;
+                    animFadein = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.abc_fade_in);
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Toast.makeText(SimpleViewPagerActivity.this, "Button Pressed", Toast.LENGTH_SHORT).show();
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Toast.makeText(SimpleViewPagerActivity.this, "Button Release", Toast.LENGTH_SHORT).show();
+                        btCall.startAnimation(animFadein);
+                        btCall.setBackgroundResource(R.drawable.call_button_pressed);
+                    }
+
+           /*       String uri = "tel:" + "089788676";
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(uri));
+                    startActivity(intent);*/
+                    return true;
+                }
+            });
 
 			return view;
 		}
