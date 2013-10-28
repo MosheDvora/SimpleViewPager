@@ -1,4 +1,4 @@
-package com.mamlambo.simpleviewpager;
+package com.moshedvora.dialer;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -1,13 +1,10 @@
-package com.mamlambo.simpleviewpager;
+package com.moshedvora.dialer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.AudioManager;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
+
 
 public class MyPagerAdapter extends PagerAdapter {
 
