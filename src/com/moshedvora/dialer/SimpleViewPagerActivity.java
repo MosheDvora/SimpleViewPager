@@ -8,12 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-
 public class SimpleViewPagerActivity extends Activity {
-    TelephonyManager manager;
-    StatePhoneReceiver myPhoneStateListener;
-    boolean callFromOffHook=false;
-    static boolean callFromApp=false;
+
+    private TelephonyManager telephonyManager;
+    private StatePhoneReceiver statePhoneReceiver;
+    private boolean isCallFromOffHook =false;
+    private boolean isCallFromApp =false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -21,44 +21,41 @@ public class SimpleViewPagerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		MyPagerAdapter adapter = new MyPagerAdapter(this,callFromApp);
+		MyPagerAdapter adapter = new MyPagerAdapter(this);
 		ViewPager myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
 		myPager.setAdapter(adapter);
 		myPager.setCurrentItem(0);
 
-        manager = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE));
-        myPhoneStateListener = new StatePhoneReceiver(this);
-        manager.listen(myPhoneStateListener,PhoneStateListener.LISTEN_CALL_STATE);
+        telephonyManager = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE));
+        statePhoneReceiver = new StatePhoneReceiver(this);
+        telephonyManager.listen(statePhoneReceiver, PhoneStateListener.LISTEN_CALL_STATE);
 	}
 
-    public static void  setcallFromApp(Boolean call){
-        callFromApp=call;
+    public void setCallFromApp(boolean call){
+        isCallFromApp =call;
     }
 
-    public static boolean getcallFromApp(){
-        return callFromApp;
+    public boolean isCallFromApp(){
+        return isCallFromApp;
     }
 
-
-
-
-    // Phone Listener
     public class StatePhoneReceiver extends PhoneStateListener {
-        Context context;
-        public StatePhoneReceiver(Context context) {
-            this.context = context;
+
+        private SimpleViewPagerActivity simpleViewPagerActivity;
+
+        public StatePhoneReceiver(SimpleViewPagerActivity simpleViewPagerActivity) {
+            this.simpleViewPagerActivity= simpleViewPagerActivity;
         }
 
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
-          //  super.onCallStateChanged(state, incomingNumber);
 
             switch (state) {
 
                 case TelephonyManager.CALL_STATE_OFFHOOK: //Call is established
-                    if (SimpleViewPagerActivity.getcallFromApp()) {
-                        callFromApp=false;
-                        callFromOffHook=true;
+                    if (simpleViewPagerActivity.isCallFromApp()) {
+                        isCallFromApp =false;
+                        isCallFromOffHook =true;
 
                         try
                         {
@@ -74,12 +71,12 @@ public class SimpleViewPagerActivity extends Activity {
                     break;
 
                 case TelephonyManager.CALL_STATE_IDLE: //Call is finished
-                    if (callFromOffHook)
+                    if (isCallFromOffHook)
                     {
-                        callFromOffHook=false;
+                        isCallFromOffHook =false;
                         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                         audioManager.setMode(AudioManager.MODE_NORMAL); //Deactivate loudspeaker
-                        manager.listen(myPhoneStateListener,PhoneStateListener.LISTEN_NONE);  // Remove listener
+                        telephonyManager.listen(statePhoneReceiver, PhoneStateListener.LISTEN_NONE);  // Remove listener
                     }
                     break;
             }

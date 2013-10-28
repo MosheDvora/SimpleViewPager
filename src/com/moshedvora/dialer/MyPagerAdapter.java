@@ -13,26 +13,21 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 public class MyPagerAdapter extends PagerAdapter {
 
+    private SimpleViewPagerActivity activity;
+    private Animation animFadein;
+    private CallContact call;
 
-    private Activity activity;
-    Animation animFadein;
-    CallContact call;
-    Boolean callFromApp;
-
-
-
-    public MyPagerAdapter(Activity activity,Boolean callFromApp) {
-        this.activity = activity;
-        this.callFromApp=callFromApp;
+    public MyPagerAdapter(SimpleViewPagerActivity simpleViewPagerActivity) {
+            this.activity= simpleViewPagerActivity;
     }
 
     @Override
     public int getCount() {
         return 5;
     }
+
     @Override
     public Object instantiateItem(View collection, int position) {
 
@@ -81,7 +76,7 @@ public class MyPagerAdapter extends PagerAdapter {
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Toast.makeText(activity, "Button Release", Toast.LENGTH_SHORT).show();
                     btCall.setBackgroundResource(R.drawable.call_button_focused);
-                    SimpleViewPagerActivity.setcallFromApp(true);
+                    activity.setCallFromApp(true);
                     call = new CallContact("089788676");
                     activity.startActivity(call.makeCall());
                 }
