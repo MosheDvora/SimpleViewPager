@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,8 +21,8 @@ public class MyPagerAdapter extends PagerAdapter {
     private Animation animFadein;
     private CallContact call;
 
-    public MyPagerAdapter(SimpleViewPagerActivity simpleViewPagerActivity) {
-            this.activity= simpleViewPagerActivity;
+    public MyPagerAdapter(SimpleViewPagerActivity activity) {
+            this.activity = activity;
     }
 
     @Override
@@ -31,16 +33,12 @@ public class MyPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(View collection, int position) {
 
-        LayoutInflater inflater = (LayoutInflater) collection.getContext()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int resId = 0;
         switch (position) {
-            case 0:{
+            case 0:
                 resId = R.layout.farleft;
-
                 break;
-            }
             case 1:
                 resId = R.layout.left;
                 break;
@@ -56,7 +54,6 @@ public class MyPagerAdapter extends PagerAdapter {
         }
 
         View view = inflater.inflate(resId, null);
-
         ((ViewPager) collection).addView(view, 0);
 
         final Button btCall = (Button)activity.findViewById(R.id.btCall);
@@ -73,12 +70,13 @@ public class MyPagerAdapter extends PagerAdapter {
                     btCall.setBackgroundResource(R.drawable.call_button_pressed);
                     btCall.startAnimation(animFadein);
                 }
-                else if (event.getAction() == MotionEvent.ACTION_UP) {
+
+                else if (event.getAction() == MotionEvent.ACTION_UP)
+                {
                     Toast.makeText(activity, "Button Release", Toast.LENGTH_SHORT).show();
                     btCall.setBackgroundResource(R.drawable.call_button_focused);
                     activity.setCallFromApp(true);
-                    call = new CallContact("089788676");
-                    activity.startActivity(call.makeCall());
+                    activity.startActivity(new CallContact().makeCall("089788676"));
                 }
 
                 return true;
@@ -121,6 +119,12 @@ public class MyPagerAdapter extends PagerAdapter {
     public void startUpdate(View arg0) {
         // TODO Auto-generated method stub
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = activity.getMenuInflater();
+        inflater.inflate(R.menu.mainmenu,menu);
+        return true;
     }
 
 }

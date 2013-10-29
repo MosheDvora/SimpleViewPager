@@ -2,16 +2,19 @@ package com.moshedvora.dialer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class SimpleViewPagerActivity extends Activity {
 
     private TelephonyManager telephonyManager;
-    private StatePhoneReceiver statePhoneReceiver;
+    private MyPhoneStateListener statePhoneReceiver;
     private boolean isCallFromOffHook =false;
     private boolean isCallFromApp =false;
 
@@ -27,9 +30,34 @@ public class SimpleViewPagerActivity extends Activity {
 		myPager.setCurrentItem(0);
 
         telephonyManager = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE));
-        statePhoneReceiver = new StatePhoneReceiver(this);
+        statePhoneReceiver = new MyPhoneStateListener(this);
         telephonyManager.listen(statePhoneReceiver, PhoneStateListener.LISTEN_CALL_STATE);
 	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+            case R.id.action_settings:
+                Toast.makeText(this, "Menu item 2 selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
+    }
 
     public void setCallFromApp(boolean call){
         isCallFromApp =call;
@@ -39,47 +67,12 @@ public class SimpleViewPagerActivity extends Activity {
         return isCallFromApp;
     }
 
-    public class StatePhoneReceiver extends PhoneStateListener {
-
-        private SimpleViewPagerActivity simpleViewPagerActivity;
-
-        public StatePhoneReceiver(SimpleViewPagerActivity simpleViewPagerActivity) {
-            this.simpleViewPagerActivity= simpleViewPagerActivity;
-        }
-
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-
-            switch (state) {
-
-                case TelephonyManager.CALL_STATE_OFFHOOK: //Call is established
-                    if (simpleViewPagerActivity.isCallFromApp()) {
-                        isCallFromApp =false;
-                        isCallFromOffHook =true;
-
-                        try
-                        {
-                            Thread.sleep(500); // Delay 0,5 seconds to handle better turning on loudspeaker
-                        } catch (InterruptedException e)
-                        {
-                        }
-
-                        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setMode(AudioManager.MODE_IN_CALL);
-                        audioManager.setSpeakerphoneOn(true);
-                    }
-                    break;
-
-                case TelephonyManager.CALL_STATE_IDLE: //Call is finished
-                    if (isCallFromOffHook)
-                    {
-                        isCallFromOffHook =false;
-                        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                        audioManager.setMode(AudioManager.MODE_NORMAL); //Deactivate loudspeaker
-                        telephonyManager.listen(statePhoneReceiver, PhoneStateListener.LISTEN_NONE);  // Remove listener
-                    }
-                    break;
-            }
-        }
+    public void setCallFromOffHook(boolean call){
+        isCallFromOffHook =call;
     }
+
+    public boolean isCallFromOffHook(){
+        return isCallFromOffHook;
+    }
+
 }
