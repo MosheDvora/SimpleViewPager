@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="contactDetails">
+        <item name="1">Moshe Dvora</item>
+        <item name="2">Liran Atar</item>
+        <item name="3">Idan Hab</item>
+        <item name="4">Avner Godo</item>
+    </string-array>
+
+    <string-array name="phones">
+        <item name="1">0585858300</item>
+        <item name="7">978979789</item>
+        <item name="30">09808089</item>
+        <item name="0">809870987</item>
+    </string-array>
+
+
+</resources>

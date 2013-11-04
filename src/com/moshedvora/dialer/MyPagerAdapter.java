@@ -1,8 +1,9 @@
 package com.moshedvora.dialer;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -17,11 +19,11 @@ import android.widget.Toast;
 
 public class MyPagerAdapter extends PagerAdapter {
 
-    private SimpleViewPagerActivity activity;
+    private Main_Activity activity;
     private Animation animFadein;
-    private CallContact call;
+    //int position=0;
 
-    public MyPagerAdapter(SimpleViewPagerActivity activity) {
+    public MyPagerAdapter(Main_Activity activity) {
             this.activity = activity;
     }
 
@@ -31,42 +33,30 @@ public class MyPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(View collection, int position) {
+    public Object instantiateItem(ViewGroup collection, final int position) {
 
         LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        int resId = 0;
-        switch (position) {
-            case 0:
-                resId = R.layout.farleft;
-                break;
-            case 1:
-                resId = R.layout.left;
-                break;
-            case 2:
-                resId = R.layout.middle;
-                break;
-            case 3:
-                resId = R.layout.right;
-                break;
-            case 4:
-                resId = R.layout.farright;
-                break;
-        }
+        int resId = R.layout.inside_layout;
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
 
         View view = inflater.inflate(resId, null);
-        ((ViewPager) collection).addView(view, 0);
+        resId = R.layout.inside_layout;
+        view = inflater.inflate(resId, null);
+        view.setBackground(activity.getContacts().get(position).getPic());
 
+        ((ViewPager) collection).addView(view, 0);
         final Button btCall = (Button)activity.findViewById(R.id.btCall);
         btCall.setOnTouchListener(new View.OnTouchListener() {
             @Override
-
-
             public boolean onTouch(View v, MotionEvent event) {
                 animFadein = AnimationUtils.loadAnimation(activity, R.anim.abc_fade_in);
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN)
                 {
+                    int storedPreference = preferences.getInt("storedInt", 0);
                     Toast.makeText(activity, "Button Pressed", Toast.LENGTH_SHORT).show();
+
                     btCall.setBackgroundResource(R.drawable.call_button_pressed);
                     btCall.startAnimation(animFadein);
                 }
@@ -76,7 +66,7 @@ public class MyPagerAdapter extends PagerAdapter {
                     Toast.makeText(activity, "Button Release", Toast.LENGTH_SHORT).show();
                     btCall.setBackgroundResource(R.drawable.call_button_focused);
                     activity.setCallFromApp(true);
-                    activity.startActivity(new CallContact().makeCall("089788676"));
+                    activity.startActivity(new CallContact().makeCall(activity.getContacts().get(position).getPhoneNumber()));
                 }
 
                 return true;
@@ -86,13 +76,13 @@ public class MyPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(View arg0, int arg1, Object arg2) {
+    public void destroyItem(ViewGroup arg0, int arg1, Object arg2) {
         ((ViewPager) arg0).removeView((View) arg2);
 
     }
 
     @Override
-    public void finishUpdate(View arg0) {
+    public void finishUpdate(ViewGroup arg0) {
         // TODO Auto-generated method stub
 
     }
@@ -116,7 +106,7 @@ public class MyPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void startUpdate(View arg0) {
+    public void startUpdate(ViewGroup arg0) {
         // TODO Auto-generated method stub
 
     }

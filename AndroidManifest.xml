@@ -6,16 +6,19 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-sdk android:minSdkVersion="10" />
+    <uses-sdk android:minSdkVersion="16"
+              android:targetSdkVersion="17"/>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name="com.moshedvora.dialer.SimpleViewPagerActivity"
+        <activity android:theme="@style/Theme.AppCompat.Light"
+            android:name=".Main_Activity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PreferencesActivity" />
 
     </application>
 </manifest>

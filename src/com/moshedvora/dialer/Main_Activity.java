@@ -2,6 +2,7 @@ package com.moshedvora.dialer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.telephony.PhoneStateListener;
@@ -11,12 +12,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class SimpleViewPagerActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main_Activity extends Activity {
 
     private TelephonyManager telephonyManager;
     private MyPhoneStateListener statePhoneReceiver;
     private boolean isCallFromOffHook =false;
     private boolean isCallFromApp =false;
+    private List<Contact> contact = new ArrayList<Contact>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -28,6 +33,13 @@ public class SimpleViewPagerActivity extends Activity {
 		ViewPager myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
 		myPager.setAdapter(adapter);
 		myPager.setCurrentItem(0);
+
+        contact.add(new Contact("Moshe Dvora","089788676",true,getResources().getDrawable(R.drawable.elebutton)));
+        contact.add(new Contact("Moshe Moshe","089788685",true,getResources().getDrawable(R.drawable.left)));
+        contact.add(new Contact("Moshe Moshe","0585858301",true,getResources().getDrawable(R.drawable.middle)));
+        contact.add(new Contact("Moshe Moshe","0585858301",true,getResources().getDrawable(R.drawable.right)));
+
+
 
         telephonyManager = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE));
         statePhoneReceiver = new MyPhoneStateListener(this);
@@ -43,9 +55,9 @@ public class SimpleViewPagerActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_refresh:
-                Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT)
-                        .show();
+            case R.id.settings:
+                Intent i = new Intent(this, PreferencesActivity.class);
+                startActivityForResult(i,1 );
                 break;
             case R.id.action_settings:
                 Toast.makeText(this, "Menu item 2 selected", Toast.LENGTH_SHORT)
@@ -73,6 +85,10 @@ public class SimpleViewPagerActivity extends Activity {
 
     public boolean isCallFromOffHook(){
         return isCallFromOffHook;
+    }
+
+    public List<Contact> getContacts() {
+        return contact;
     }
 
 }

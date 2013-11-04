@@ -7,9 +7,9 @@ import android.telephony.TelephonyManager;
 
 public class MyPhoneStateListener extends PhoneStateListener {
 
-    private SimpleViewPagerActivity activity;
+    private Main_Activity activity;
 
-    public MyPhoneStateListener(SimpleViewPagerActivity activity) {
+    public MyPhoneStateListener(Main_Activity activity) {
         this.activity = activity;
     }
 
