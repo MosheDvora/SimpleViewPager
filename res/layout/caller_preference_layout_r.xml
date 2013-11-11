@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+
+<LinearLayout
+    android:id="@+id/llButton"
+    android:layout_alignParentTop="true"
+    style="?android:attr/buttonBarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="0dip"
+    android:paddingLeft="2dip"
+    android:paddingRight="2dip"
+    android:measureWithLargestChild="true"
+    android:keepScreenOn="false"
+    >
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        style="?android:attr/buttonBarButtonStyle"
+
+        android:text="@android:string/cancel"
+        />
+    <Button
+        android:id="@+id/save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        style="?android:attr/buttonBarButtonStyle"
+        android:text="@android:string/ok" />
+
+</LinearLayout>
+
+<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/svActivity"
+        android:fillViewport="true"
+        >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+
+    <TextView
+        android:id="@+id/tvContactImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Contact Image:"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <ImageView
+        android:id="@+id/ivContactImage"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
+
+        android:cropToPadding="true"
+        android:adjustViewBounds="false"
+        android:background="@drawable/middle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tvContactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Name:"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/ivContactImage"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignBottom="@+id/etContactName"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:id="@+id/etContactName"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:inputType="textPersonName"
+        android:layout_below="@id/ivContactImage"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/tvContactPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Phone Number:"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/etContactName"
+        android:layout_alignBottom="@+id/etPhoneNumber"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:id="@+id/etPhoneNumber"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@id/tvContactPhone"
+        android:layout_below="@id/etContactName"
+        android:layout_marginTop="15dp"/>
+
+    <CheckedTextView
+        android:id="@+id/ctvSpeakerOn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:clickable="true"
+        android:gravity="left"
+        android:text="Speaker On"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tvContactPhone"
+        android:layout_marginTop="15dp"
+        />
+
+    <CheckedTextView
+        android:id="@+id/ctvVibrationOn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:clickable="true"
+        android:checked="true"
+        android:gravity="left"
+        android:text="Vibration On"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/ctvSpeakerOn"
+        android:layout_marginTop="25dp"/>
+
+</RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

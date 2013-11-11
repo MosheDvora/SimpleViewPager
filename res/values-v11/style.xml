@@ -1,0 +1,8 @@
+<resources>
+
+    <!-- Styles in here can be extended for customisation in your application. Each utilises
+         one of the Base styles. If Holo themes are available on the current platform version
+         they will be used instead of the compat styles. -->
+
+
+</resources>

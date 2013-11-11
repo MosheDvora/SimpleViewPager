@@ -55,5 +55,8 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="Vibration">vibration</string>
     <string name="SpeakerON">Speaker On</string>
+    <string name="speaker_on">Speaker ON</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Save">Save</string>
 
 </resources>

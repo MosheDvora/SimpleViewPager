@@ -21,7 +21,9 @@ public class MyPagerAdapter extends PagerAdapter {
 
     private Main_Activity activity;
     private Animation animFadein;
-    //int position=0;
+    int position=0;
+    //SharedPreferences mPrefs = activity.getSharedPreferences("page", Context.MODE_PRIVATE);
+
 
     public MyPagerAdapter(Main_Activity activity) {
             this.activity = activity;
@@ -32,8 +34,13 @@ public class MyPagerAdapter extends PagerAdapter {
         return 5;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     @Override
     public Object instantiateItem(ViewGroup collection, final int position) {
+        this.position=position;
 
         LayoutInflater inflater = (LayoutInflater) collection.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int resId = R.layout.inside_layout;
@@ -55,7 +62,8 @@ public class MyPagerAdapter extends PagerAdapter {
                 if (event.getAction() == MotionEvent.ACTION_DOWN)
                 {
                     int storedPreference = preferences.getInt("storedInt", 0);
-                    Toast.makeText(activity, "Button Pressed", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(activity, "Button Pressed", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(activity,  mPrefs.getString("name",""), Toast.LENGTH_LONG).show();
 
                     btCall.setBackgroundResource(R.drawable.call_button_pressed);
                     btCall.startAnimation(animFadein);

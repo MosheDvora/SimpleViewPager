@@ -22,6 +22,8 @@ public class Main_Activity extends Activity {
     private boolean isCallFromOffHook =false;
     private boolean isCallFromApp =false;
     private List<Contact> contact = new ArrayList<Contact>();
+    private MyPagerAdapter adapter;
+    private ViewPager myPager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -29,10 +31,11 @@ public class Main_Activity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		MyPagerAdapter adapter = new MyPagerAdapter(this);
-		ViewPager myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
+		adapter = new MyPagerAdapter(this);
+		myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
 		myPager.setAdapter(adapter);
 		myPager.setCurrentItem(0);
+
 
         contact.add(new Contact("Moshe Dvora","089788676",true,getResources().getDrawable(R.drawable.elebutton)));
         contact.add(new Contact("Moshe Moshe","089788685",true,getResources().getDrawable(R.drawable.left)));
@@ -56,8 +59,9 @@ public class Main_Activity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                Intent i = new Intent(this, PreferencesActivity.class);
-                startActivityForResult(i,1 );
+                Intent i = new Intent(this, CallerPreference.class);
+                i.putExtra("callerNumber","CallerNumber"+myPager.getCurrentItem());
+                startActivityForResult(i,1);
                 break;
             case R.id.action_settings:
                 Toast.makeText(this, "Menu item 2 selected", Toast.LENGTH_SHORT)
