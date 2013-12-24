@@ -1,56 +1,80 @@
 package com.moshedvora.dialer;
 
 
-import android.graphics.drawable.Drawable;
-
-import java.util.ArrayList;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 public class Contact {
 
     private String name,phoneNumber;
     private boolean speakerOn;
     private boolean vibration;
-    private Drawable pic;
+    private String mPicture;
+    SharedPreferences mPrefs;
+    private CallerDbAdapter callerDbAdapter;
+
+    public Contact (int id){
+
+        mPrefs = MyApp.getAppContext().getSharedPreferences("pagePosition" + id, Context.MODE_PRIVATE);
+        this.name = mPrefs.getString("name", "");
+        this.phoneNumber = mPrefs.getString("phone", "");
+        this.speakerOn = true;
+        this.mPicture = mPrefs.getString("image", "empty");
+        callerDbAdapter = new CallerDbAdapter(MyApp.getAppContext());
+
+
+    }
 
     public String getName() {
-        return name;
+        return mPrefs.getString("name", "");
     }
 
     public void setName(String name) {
-        this.name = name;
+       // this.name = name;
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putString("name", name).commit();
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return mPrefs.getString("phone", "");
+    }
+
+    public String getmPicture() {
+        return mPrefs.getString("image", "empty");
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+       // this.phoneNumber = phoneNumber;
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putString("phone", phoneNumber).commit();
+
+
     }
 
     public boolean isSpeakerOn() {
-        return speakerOn;
+        return mPrefs.getBoolean("speakerOn", false);
     }
 
     public void setSpeakerOn(boolean speakerOn) {
         this.speakerOn = speakerOn;
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean("speakerOn", speakerOn).commit();
     }
 
-    public Drawable getPic() {
-        return pic;
+
+    public void setPicture(String picture) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putString("image",picture).commit();
     }
 
-    public void setPic(Drawable pic) {
-        this.pic = pic;
+    public void setVibration(boolean vibration) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean("vibrationOn", vibration).commit();
     }
 
-    public Contact(String name,String phoneNumber,boolean speakerOn, Drawable pic) {
-
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.speakerOn = speakerOn;
-        this.pic = pic;
-
+    public boolean isVibration() {
+        return mPrefs.getBoolean("vibrationOn", false);
     }
+
 
 }
